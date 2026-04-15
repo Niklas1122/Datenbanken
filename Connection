@@ -1,17 +1,10 @@
 <?php
 $host = "localhost";
-$user = "gruppe20";
-$password = "s*_C4u}y~if!";
-$db = "gruppe20";
+$user = "gruppe12";
+$password = "Z$;tra..u1h+";
+$db = "gruppe12";
 
 $connection = mysqli_connect($host, $user, $password);
 mysqli_select_db($connection, $db);
 
-$result = mysqli_query($connection, "SELECT uid, name FROM personen");
-while ($row = mysqli_fetch_assoc($result)) {
-    print($row["uid"]);
-    print($row["name"]);
-}
-
-mysqli_close($connection);
-  
+?>
