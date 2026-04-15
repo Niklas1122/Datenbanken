@@ -4,13 +4,15 @@
         <title>
             Surface
         </title>
+        <style>
+            <h1> {
+                color: blue;
+                font-size: 40px;
+                position: absolute;
+                top: 50%;
+            }
     </head>
     <body>
 <h1> RennradSV </h1>
-<UL>Make me an unordered list.
-<LI>One programmer</LI>
-<LI>Ten SDKs</LI>
-<LI>Great Internet Apps</LI>
-</UL>
     </body>
     </html>
