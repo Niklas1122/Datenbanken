@@ -8,7 +8,6 @@
             <h1> {
                 color: blue;
             }
-            </h1>
         </style>
 
     </head>
