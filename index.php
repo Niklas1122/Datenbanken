@@ -4,14 +4,13 @@
         <title>
             Surface
         </title>
-        <style>
+    </head>
+    <body>
+                <style>
             <h1> {
                 color: blue;
             }
         </style>
-
-    </head>
-    <body>
 <h1> RennradSV </h1>
     </body>
     </html>
