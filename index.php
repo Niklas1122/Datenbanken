@@ -8,8 +8,7 @@
             <h1> {
                 color: blue;
                 font-size: 40px;
-                position: absolute;
-                top: 50%;
+                position: left;
             }
     </head>
     <body>
