@@ -1,11 +1,10 @@
 <?php
-/*
-Autor: Entwurf mit Codex, bitte im Projekt mit echtem Autor kennzeichnen.
-Zweck: Einfache Testdatei fuer die Datenbankverbindung.
-*/
+$host = "localhost";
+$user = "gruppe20";
+$password = "s*_C4u}y~if!";
+$db = "gruppe20";
 
-require_once __DIR__ . '/inc/db.inc.php';
+$connection = mysqli_connect($host, $user, $password);
+mysqli_select_db($connection, $db);
 
-$connection = dbConnect();
-echo "Datenbankverbindung erfolgreich.";
-$connection->close();
+?>
