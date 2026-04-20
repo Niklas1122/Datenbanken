@@ -1,3 +1,4 @@
+<?php include 'Rennveranstalter_registrierung.php'; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +9,9 @@
 <body>
     <div class="page">
         <h1>RennradSV</h1>
+        <?php if ($meldung !== ""): ?>
+            <p><?php echo $meldung; ?></p>
+        <?php endif; ?>
         <div class="form-box">
             <h2>Neues Team anlegen</h2>
             <form action="#" method="post">
@@ -54,12 +58,12 @@
             <h2>Rennveranstalter registrieren</h2>
             <form action="#" method="post">
                 <label>
-                    Eindeutiger Name
-                    <input type="text" name="veranstalter_name">
+                    Loginname
+                    <input type="text" name="veranstalter_name" required>
                 </label>
                 <label>
                     Kennwort
-                    <input type="password" name="veranstalter_passwort">
+                    <input type="password" name="veranstalter_passwort" required>
                 </label>
                 <button type="submit">Registrieren</button>
             </form>
