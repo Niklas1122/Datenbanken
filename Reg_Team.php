@@ -29,10 +29,10 @@ if (
         } elseif (mysqli_num_rows($teamchef_ergebnis) > 0) {
             $meldung = "Loginname ist schon vergeben.";
         } else {
-            $sql_team = "INSERT INTO TEAM (Teamname, Loginname) VALUES ('$teamname', '$loginname')";
             $sql_teamchef = "INSERT INTO TEAMCHEF (Loginname, Vorname, Nachname, Passwort) VALUES ('$loginname', '$vorname', '$nachname', '$passwort')";
+            $sql_team = "INSERT INTO TEAM (Teamname, Loginname) VALUES ('$teamname', '$loginname')";
 
-            if (mysqli_query($connection, $sql_team) && mysqli_query($connection, $sql_teamchef)) {
+            if (mysqli_query($connection, $sql_teamchef) && mysqli_query($connection, $sql_team)) {
                 $meldung = "Team wurde gespeichert.";
             } else {
                 $meldung = "Fehler beim Speichern.";
