@@ -12,7 +12,7 @@
 
         .page {
             max-width: 420px;
-            margin: 60px auto;
+            margin: 60px 0 60px auto;
             padding: 32px;
             background-color: #ffffff;
             border-radius: 12px;
@@ -27,7 +27,6 @@
             display: block;
             margin-bottom: 14px;
         }
-
         .login-box input {
             width: 100%;
             margin-top: 6px;
