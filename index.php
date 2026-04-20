@@ -1,4 +1,8 @@
-<?php include 'Rennveranstalter_registrierung.php'; ?>
+<?php
+$meldung = "";
+include 'Reg_RV.php';
+include 'Anm_RV.php';
+?>
 <!DOCTYPE html>
 <html>
 <head>
