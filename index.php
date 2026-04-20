@@ -1,5 +1,7 @@
 <?php
 $meldung = "";
+include 'Reg_Team.php';
+include 'Anm_TeamChef.php';
 include 'Reg_RV.php';
 include 'Anm_RV.php';
 ?>
