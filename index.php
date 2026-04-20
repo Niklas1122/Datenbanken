@@ -7,16 +7,6 @@
             margin: 0;
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
-            color: #222;
-        }
-
-        .page {
-            max-width: 420px;
-            margin: 60px 0 60px auto;
-            padding: 32px;
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
         }
 
         h1 {
