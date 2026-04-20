@@ -3,59 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>RennradSV</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            color: #222;
-        }
-
-        .page {
-            max-width: 900px;
-            margin: 30px auto;
-            padding: 20px;
-        }
-
-        h1,
-        h2 {
-            margin-top: 0;
-        }
-
-        .form-box {
-            background-color: #fff;
-            border: 1px solid #ccc;
-            padding: 16px;
-            margin-bottom: 20px;
-        }
-
-        .form-box label {
-            display: block;
-            margin-bottom: 12px;
-        }
-
-        .form-box input,
-        .form-box select,
-        .form-box textarea {
-            width: 100%;
-            margin-top: 6px;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-
-        .form-box button {
-            padding: 10px 14px;
-            border: 1px solid #999;
-            background-color: #e6e6e6;
-            cursor: pointer;
-        }
-
-        .pink-button {
-            background-color: hotpink !important;
-            color: #fff;
-            color: #fff;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="page">
