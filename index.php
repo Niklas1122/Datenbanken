@@ -73,7 +73,7 @@
             <h2>Rennveranstalter anmelden</h2>
             <form action="#" method="post">
                 <label>
-                    Eindeutiger Name
+                    Loginname
                     <input type="text" name="veranstalter_login">
                 </label>
                 <label>

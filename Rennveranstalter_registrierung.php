@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['veranstalter_name'], 
             }
         }
     } else {
-        $meldung = "Bitte alles ausfuellen.";
+        $meldung = "Bitte alles ausfüllen.";
     }
 }
 ?>
