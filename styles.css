@@ -44,7 +44,7 @@ h2 {
     cursor: pointer;
 }
 
-.pink-button {
-    background-color: hotpink !important;
-    color: #fff;
+.button {
+    background-color: #e6e6e6;
+    color: #222;
 }
