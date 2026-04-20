@@ -6,11 +6,9 @@
         </title>
     </head>
     <body>
-                <style>
-            <h1> {
-                color: blue;
-            }
-        </style>
 <h1> RennradSV </h1>
-    </body>
+<p>
+     Hier findest du alle Informationen zu unserem Rennradverein.
+</p>
+</body>
     </html>
