@@ -8,7 +8,11 @@
     <body>
 <h1> RennradSV </h1>
 <p> Hier findest du alle Informationen zu unserem Rennradverein. </p>
-<div> Login </div>
+<div> 
+    Anmeldename: <input type="text" name="username"> <br>
+    Passwort: <input type="password" name="password"> <br> 
+</div>
+<button> Login </button>
 
 </body>
     </html>
