@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_POST["ride_time"] ?? []
     );
 
-    redirectWithMessage("race_results.php&race_id=" . $raceId, $message, $success ? "success" : "error");
+    redirectWithMessage("race_results.php?race_id=" . $raceId, $message, $success ? "success" : "error");
 }
 
 $registrations = getRaceRegistrationsForResults($connection, $raceId);

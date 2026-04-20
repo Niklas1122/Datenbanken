@@ -13,12 +13,20 @@ function dbConnect(): mysqli
     $password = "s*_C4u}y~if!";
     $database = "gruppe20";
 
-    $connection = new mysqli($host, $user, $password, $database);
+    $connection = new mysqli($host, $user, $password);
     if ($connection->connect_error) {
         die("Datenbankverbindung fehlgeschlagen: " . $connection->connect_error);
     }
 
     $connection->set_charset("utf8mb4");
+
+    if (!$connection->query("CREATE DATABASE IF NOT EXISTS `" . $connection->real_escape_string($database) . "` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")) {
+        die("Datenbank konnte nicht angelegt werden: " . $connection->error);
+    }
+
+    if (!$connection->select_db($database)) {
+        die("Datenbank konnte nicht ausgewaehlt werden: " . $connection->error);
+    }
 
     if (!$initialized) {
         initializeDatabase($connection);

@@ -12,7 +12,8 @@ if (session_status() === PHP_SESSION_NONE) {
 
 function redirectWithMessage(string $url, string $message, string $type = "success"): void
 {
-    header("Location: " . $url . "?message=" . urlencode($message) . "&type=" . urlencode($type));
+    $separator = str_contains($url, "?") ? "&" : "?";
+    header("Location: " . $url . $separator . "message=" . urlencode($message) . "&type=" . urlencode($type));
     exit;
 }
 
