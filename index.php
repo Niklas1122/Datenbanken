@@ -8,8 +8,6 @@
 <body>
     <div class="page">
         <h1>RennradSV</h1>
-        <p>Einfache Startseite mit einem einheitlichen Layout fuer alle Anmeldemasken.</p>
-
         <div class="form-box">
             <h2>Neues Team anlegen</h2>
             <form action="#" method="post">
