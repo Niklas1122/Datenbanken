@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/Connection.php';
+require_once __DIR__ . '/../funktionen/Connection.php';
 
 if (
     isset($_POST['form_typ'], $_POST['veranstalter_name'], $_POST['veranstalter_passwort']) &&

@@ -3,13 +3,13 @@ session_start();
 
 $meldung = "";
 $label_stil = 'display:block; margin-bottom:10px;';
-include 'Reg_Team.php';
-include 'Anm_TeamChef.php';
-include 'Reg_RV.php';
-include 'Anm_RV.php';
+include __DIR__ . '/../auth/reg_team.php';
+include __DIR__ . '/../auth/anm_teamchef.php';
+include __DIR__ . '/../auth/reg_rv.php';
+include __DIR__ . '/../auth/anm_rv.php';
 
 if (isset($_SESSION['teamchef_login'])) {
-    header("Location: team_dashboard.php");
+    header("Location: teamchef_dashboard.php");
     exit;
 }
 ?>

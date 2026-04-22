@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/Connection.php';
+require_once __DIR__ . '/../funktionen/Connection.php';
 
 if (
     isset($_POST['form_typ'], $_POST['login_name'], $_POST['password']) &&
@@ -16,7 +16,7 @@ if (
 
         if (mysqli_num_rows($ergebnis) > 0) {
             $_SESSION['teamchef_login'] = $loginname;
-            header("Location: team_dashboard.php");
+            header("Location: ../projekt/teamchef_dashboard.php");
             exit;
         } else {
             $meldung = "Loginname oder Passwort ist falsch.";
