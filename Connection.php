@@ -6,5 +6,3 @@ $db = "gruppe20";
 
 $connection = mysqli_connect($host, $user, $password);
 mysqli_select_db($connection, $db);
-
-?>

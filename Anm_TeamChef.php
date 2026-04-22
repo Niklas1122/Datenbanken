@@ -1,16 +1,23 @@
 <?php
 require_once __DIR__ . '/Connection.php';
 
-if (isset($_POST['login_name'], $_POST['password'])) {
-    $loginname = $_POST['login_name'];
-    $passwort = $_POST['password'];
+if (
+    isset($_POST['form_typ'], $_POST['login_name'], $_POST['password']) &&
+    $_POST['form_typ'] === 'teamchef_login'
+) {
+    $loginname = trim($_POST['login_name']);
+    $passwort = trim($_POST['password']);
 
-    if ($loginname != "" && $passwort != "") {
-        $sql = "SELECT * FROM TEAMCHEF WHERE Loginname = '$loginname' AND Passwort = '$passwort'";
+    if ($loginname !== "" && $passwort !== "") {
+        $loginname_sicher = mysqli_real_escape_string($connection, $loginname);
+        $passwort_sicher = mysqli_real_escape_string($connection, $passwort);
+        $sql = "SELECT * FROM TEAMCHEF WHERE Loginname = '$loginname_sicher' AND Passwort = '$passwort_sicher'";
         $ergebnis = mysqli_query($connection, $sql);
 
         if (mysqli_num_rows($ergebnis) > 0) {
-            $meldung = "Teamchef Anmeldung erfolgreich.";
+            $_SESSION['teamchef_login'] = $loginname;
+            header("Location: team_dashboard.php");
+            exit;
         } else {
             $meldung = "Loginname oder Passwort ist falsch.";
         }
@@ -18,4 +25,3 @@ if (isset($_POST['login_name'], $_POST['password'])) {
         $meldung = "Bitte alles ausfüllen.";
     }
 }
-?>

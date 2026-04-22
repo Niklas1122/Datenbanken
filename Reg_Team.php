@@ -3,20 +3,22 @@ require_once __DIR__ . '/Connection.php';
 
 if (
     isset(
+        $_POST['form_typ'],
         $_POST['team_name'],
         $_POST['teamchef_vorname'],
         $_POST['teamchef_name'],
         $_POST['teamchef_login'],
         $_POST['teamchef_passwort']
-    )
+    ) &&
+    $_POST['form_typ'] === 'team_registrierung'
 ) {
-    $teamname = $_POST['team_name'];
-    $vorname = $_POST['teamchef_vorname'];
-    $nachname = $_POST['teamchef_name'];
-    $loginname = $_POST['teamchef_login'];
-    $passwort = $_POST['teamchef_passwort'];
+    $teamname = trim($_POST['team_name']);
+    $vorname = trim($_POST['teamchef_vorname']);
+    $nachname = trim($_POST['teamchef_name']);
+    $loginname = trim($_POST['teamchef_login']);
+    $passwort = trim($_POST['teamchef_passwort']);
 
-    if ($teamname != "" && $vorname != "" && $nachname != "" && $loginname != "" && $passwort != "") {
+    if ($teamname !== "" && $vorname !== "" && $nachname !== "" && $loginname !== "" && $passwort !== "") {
         $team_check = "SELECT * FROM TEAM WHERE Teamname = '$teamname'";
         $teamchef_check = "SELECT * FROM TEAMCHEF WHERE Loginname = '$loginname'";
 
@@ -41,4 +43,3 @@ if (
         $meldung = "Bitte alles ausfüllen.";
     }
 }
-?>

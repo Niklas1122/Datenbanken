@@ -1,11 +1,14 @@
 <?php
 require_once __DIR__ . '/Connection.php';
 
-if (isset($_POST['veranstalter_name'], $_POST['veranstalter_passwort'])) {
-    $loginname = $_POST['veranstalter_name'];
-    $passwort = $_POST['veranstalter_passwort'];
+if (
+    isset($_POST['form_typ'], $_POST['veranstalter_name'], $_POST['veranstalter_passwort']) &&
+    $_POST['form_typ'] === 'veranstalter_registrierung'
+) {
+    $loginname = trim($_POST['veranstalter_name']);
+    $passwort = trim($_POST['veranstalter_passwort']);
 
-    if ($loginname != "" && $passwort != "") {
+    if ($loginname !== "" && $passwort !== "") {
         $abfrage = "SELECT * FROM RENNVERANSTALTER WHERE Loginname = '$loginname'";
         $ergebnis = mysqli_query($connection, $abfrage);
 
@@ -24,4 +27,3 @@ if (isset($_POST['veranstalter_name'], $_POST['veranstalter_passwort'])) {
         $meldung = "Bitte alles ausfüllen.";
     }
 }
-?>
