@@ -13,7 +13,9 @@ if (
         $ergebnis = mysqli_query($connection, $sql);
 
         if (mysqli_num_rows($ergebnis) > 0) {
-            $meldung = "Anmeldung erfolgreich.";
+            $_SESSION['veranstalter_login'] = $loginname;
+            header("Location: ../projekt/rennveranstalter_dashboard.php");
+            exit;
         } else {
             $meldung = "Loginname oder Passwort ist falsch.";
         }
