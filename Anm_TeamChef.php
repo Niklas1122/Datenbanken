@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/Connection.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_name'], $_POST['password'])) {
+if (isset($_POST['login_name'], $_POST['password'])) {
     $loginname = $_POST['login_name'];
     $passwort = $_POST['password'];
 

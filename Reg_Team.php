@@ -2,7 +2,6 @@
 require_once __DIR__ . '/Connection.php';
 
 if (
-    $_SERVER['REQUEST_METHOD'] === 'POST' &&
     isset(
         $_POST['team_name'],
         $_POST['teamchef_vorname'],
