@@ -2,8 +2,7 @@
 require_once __DIR__ . '/../funktionen/Connection.php';
 
 if (
-    isset($_POST['form_typ'], $_POST['login_name'], $_POST['password']) &&
-    $_POST['form_typ'] === 'teamchef_login'
+    isset($_POST['form_typ'], $_POST['login_name'], $_POST['password'])
 ) {
     $loginname = trim($_POST['login_name']);
     $passwort = trim($_POST['password']);

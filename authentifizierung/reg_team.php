@@ -9,8 +9,7 @@ if (
         $_POST['teamchef_name'],
         $_POST['teamchef_login'],
         $_POST['teamchef_passwort']
-    ) &&
-    $_POST['form_typ'] === 'team_registrierung'
+    )
 ) {
     $teamname = trim($_POST['team_name']);
     $vorname = trim($_POST['teamchef_vorname']);

@@ -2,8 +2,7 @@
 require_once __DIR__ . '/../funktionen/Connection.php';
 
 if (
-    isset($_POST['form_typ'], $_POST['veranstalter_name'], $_POST['veranstalter_passwort']) &&
-    $_POST['form_typ'] === 'veranstalter_registrierung'
+    isset($_POST['form_typ'], $_POST['veranstalter_name'], $_POST['veranstalter_passwort'])
 ) {
     $loginname = trim($_POST['veranstalter_name']);
     $passwort = trim($_POST['veranstalter_passwort']);
