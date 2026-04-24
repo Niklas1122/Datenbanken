@@ -2,7 +2,7 @@
 session_start();
 require_once __DIR__ . '/connection.php';
 require_once __DIR__ . '/funktionen.php';
-require_once __DIR__ . '/team_funktionen.php';
+
 require_once __DIR__ . '/fahrer_funktionen.php';
 require_once __DIR__ . '/training_funktionen.php';
 
@@ -24,6 +24,9 @@ $label_stil = 'display:block; margin-bottom:10px;';
 $trainingsziele = holeTrainingsziele($connection);
 $training_form = leeresTrainingFormular($trainingsziele);
 $training_moeglich = tabelleExistiert($connection, 'TRAINING');
+$rennen_moeglich = tabelleExistiert($connection, 'RENNEN') && tabelleExistiert($connection, 'TEILNAHME');
+$zukuenftige_rennen = array();
+$rennen_mit_teilnahmen = array();
 $teamname = holeTeamnameZumLogin($connection, $teamchef_login);
 
 if ($teamname === '') {
@@ -54,6 +57,26 @@ if ($teamname !== "") {
         }
     }
 
+    if ($aktion === 'teilnahme_kopieren' && $rennen_moeglich) {
+        $anzahl = kopiereTeilnahmen($connection, $teamname, $_POST['quell_renn_id'] ?? '', $_POST['ziel_renn_id'] ?? '');
+        if ($anzahl > 0) {
+            $meldung = "$anzahl Anmeldung(en) erfolgreich kopiert.";
+        } else {
+            $fehler = "Kopieren fehlgeschlagen. Möglicherweise sind die Fahrer bereits für das Zielrennen gemeldet.";
+        }
+    }
+
+    if ($aktion === 'rennen_anmelden' && $rennen_moeglich) {
+        $fahrer_ids = $_POST['fahrer_id'] ?? array();
+        $fahrer_ids = array_filter(array_unique($fahrer_ids));
+        $ergebnis = meldeFahrerZuRennen($connection, $_POST['rennen_id'] ?? '', $fahrer_ids);
+        if ($ergebnis > 0) {
+            $meldung = "$ergebnis Fahrer wurde(n) erfolgreich angemeldet.";
+        } else {
+            $fehler = "Keine Fahrer konnten angemeldet werden. Möglicherweise sind sie bereits für dieses Rennen gemeldet.";
+        }
+    }
+
     if ($aktion === 'training_speichern' && $training_moeglich) {
         $training_form = liesTrainingFormularAusPost($trainingsziele);
         $ergebnis = speichereTrainingAusFormular($connection, $training_form, $trainingsziele);
@@ -70,6 +93,11 @@ if ($teamname !== "") {
 
     if ($training_moeglich) {
         $trainings_liste = holeTrainingsliste($connection);
+    }
+
+    if ($rennen_moeglich) {
+        $zukuenftige_rennen = holeZukuenftigeRennen($connection);
+        $rennen_mit_teilnahmen = holeRennenMitTeilnahmen($connection, $teamname);
     }
 }
 ?>
@@ -99,6 +127,10 @@ if ($teamname !== "") {
         <?php if ($training_moeglich): ?>
             <?php require __DIR__ . '/training_erfassen.php'; ?>
             <?php require __DIR__ . '/training_vorhanden.php'; ?>
+        <?php endif; ?>
+
+        <?php if ($rennen_moeglich): ?>
+            <?php require __DIR__ . '/rennen_anmelden.php'; ?>
         <?php endif; ?>
     </div>
 </body>
