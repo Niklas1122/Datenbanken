@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../funktionen/Connection.php';
+require_once __DIR__ . '/connection.php';
 
 if (
     isset($_POST['form_typ'], $_POST['veranstalter_login'], $_POST['veranstalter_passwort_login']) &&
@@ -14,7 +14,7 @@ if (
 
         if (mysqli_num_rows($ergebnis) > 0) {
             $_SESSION['veranstalter_login'] = $loginname;
-            header("Location: ../projekt/rennveranstalter_dashboard.php");
+            header("Location: rennveranstalter_dashboard.php");
             exit;
         } else {
             $meldung = "Loginname oder Passwort ist falsch.";

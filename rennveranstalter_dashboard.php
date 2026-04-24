@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/../funktionen/Connection.php';
+require_once __DIR__ . '/connection.php';
 
 if (!isset($_SESSION['veranstalter_login'])) {
     header("Location: index.php");

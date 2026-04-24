@@ -1,10 +1,10 @@
 <?php
 session_start();
-require_once __DIR__ . '/../funktionen/Connection.php';
-require_once __DIR__ . '/../funktionen/funktionen.php';
-require_once __DIR__ . '/../funktionen/team_funktionen.php';
-require_once __DIR__ . '/../funktionen/fahrer_funktionen.php';
-require_once __DIR__ . '/../funktionen/training_funktionen.php';
+require_once __DIR__ . '/connection.php';
+require_once __DIR__ . '/funktionen.php';
+require_once __DIR__ . '/team_funktionen.php';
+require_once __DIR__ . '/fahrer_funktionen.php';
+require_once __DIR__ . '/training_funktionen.php';
 
 if (!isset($_SESSION['teamchef_login'])) {
     header("Location: index.php");
@@ -93,12 +93,12 @@ if ($teamname !== "") {
             <p><?php echo htmlspecialchars($fehler); ?></p>
         <?php endif; ?>
 
-        <?php require __DIR__ . '/../views/fahrer_anlegen.php'; ?>
-        <?php require __DIR__ . '/../views/fahrer_vorhanden.php'; ?>
+        <?php require __DIR__ . '/fahrer_anlegen.php'; ?>
+        <?php require __DIR__ . '/fahrer_vorhanden.php'; ?>
 
         <?php if ($training_moeglich): ?>
-            <?php require __DIR__ . '/../views/training_erfassen.php'; ?>
-            <?php require __DIR__ . '/../views/training_vorhanden.php'; ?>
+            <?php require __DIR__ . '/training_erfassen.php'; ?>
+            <?php require __DIR__ . '/training_vorhanden.php'; ?>
         <?php endif; ?>
     </div>
 </body>

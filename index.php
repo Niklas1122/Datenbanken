@@ -3,10 +3,10 @@ session_start();
 
 $meldung = "";
 $label_stil = 'display:block; margin-bottom:10px;';
-include __DIR__ . '/../authentifizierung/reg_team.php';
-include __DIR__ . '/../authentifizierung/anm_teamchef.php';
-include __DIR__ . '/../authentifizierung/reg_rv.php';
-include __DIR__ . '/../authentifizierung/anm_rv.php';
+include __DIR__ . '/reg_team.php';
+include __DIR__ . '/anm_teamchef.php';
+include __DIR__ . '/reg_rv.php';
+include __DIR__ . '/anm_rv.php';
 
 if (isset($_SESSION['teamchef_login'])) {
     header("Location: teamchef_dashboard.php");
