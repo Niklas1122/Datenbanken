@@ -110,15 +110,15 @@ if ($teamname !== "") {
 <body>
     <div>
         <h1>Fahrerpflege</h1>
-        <p>Angemeldet als <?php echo htmlspecialchars($teamchef_login); ?> für Team <?php echo htmlspecialchars($teamname); ?></p>
+        <p>Angemeldet als <?= htmlspecialchars($teamchef_login); ?> für Team <?= htmlspecialchars($teamname); ?></p>
         <p><a href="abmelden.php">Abmelden</a></p>
 
         <?php if ($meldung !== ""): ?>
-            <p><?php echo htmlspecialchars($meldung); ?></p>
+            <p><?= htmlspecialchars($meldung); ?></p>
         <?php endif; ?>
 
         <?php if ($fehler !== ""): ?>
-            <p><?php echo htmlspecialchars($fehler); ?></p>
+            <p><?= htmlspecialchars($fehler); ?></p>
         <?php endif; ?>
 
         <?php require __DIR__ . '/fahrer_anlegen.php'; ?>

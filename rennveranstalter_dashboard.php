@@ -145,15 +145,15 @@ if ($renn_id !== '') {
 <body>
     <div>
         <h1>Rennveranstalter</h1>
-        <p>Angemeldet als <?php echo htmlspecialchars($veranstalter_login); ?></p>
+        <p>Angemeldet als <?= htmlspecialchars($veranstalter_login); ?></p>
         <p><a href="abmelden.php">Abmelden</a></p>
 
         <?php if ($meldung !== ''): ?>
-            <p><?php echo htmlspecialchars($meldung); ?></p>
+            <p><?= htmlspecialchars($meldung); ?></p>
         <?php endif; ?>
 
         <?php if ($fehler !== ''): ?>
-            <p><?php echo htmlspecialchars($fehler); ?></p>
+            <p><?= htmlspecialchars($fehler); ?></p>
         <?php endif; ?>
 
         <h2>Rennen anlegen</h2>
@@ -183,11 +183,11 @@ if ($renn_id !== '') {
                 <tbody>
                     <?php foreach ($rennen_liste as $rennen): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($rennen['RennID']); ?></td>
-                            <td><?php echo htmlspecialchars($rennen['Datum']); ?></td>
-                            <td><?php echo htmlspecialchars($rennen['Standort']); ?></td>
+                            <td><?= htmlspecialchars($rennen['RennID']); ?></td>
+                            <td><?= htmlspecialchars($rennen['Datum']); ?></td>
+                            <td><?= htmlspecialchars($rennen['Standort']); ?></td>
                             <td>
-                                <a href="rennveranstalter_dashboard.php?renn_id=<?php echo urlencode($rennen['RennID']); ?>">
+                                <a href="rennveranstalter_dashboard.php?renn_id=<?= urlencode($rennen['RennID']); ?>">
                                     Ergebnisse erfassen
                                 </a>
                             </td>
@@ -198,7 +198,7 @@ if ($renn_id !== '') {
         <?php endif; ?>
 
         <?php if ($renn_id !== '' && count($teilnehmer) > 0): ?>
-            <h3>Ergebnisse für Rennen <?php echo htmlspecialchars($renn_id); ?></h3>
+            <h3>Ergebnisse für Rennen <?= htmlspecialchars($renn_id); ?></h3>
 
             <?php if ($ergebnisse_gesperrt): ?>
                 <p>Ergebnisse wurden bereits erfasst und können nicht mehr geändert werden.</p>
@@ -215,11 +215,11 @@ if ($renn_id !== '') {
                     <tbody>
                         <?php foreach ($teilnehmer as $t): ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($t['Startnr']); ?></td>
-                                <td><?php echo htmlspecialchars($t['Name']); ?></td>
-                                <td><?php echo htmlspecialchars($t['Teamname']); ?></td>
-                                <td><?php echo htmlspecialchars($t['Platzierung'] ?? '–'); ?></td>
-                                <td><?php echo htmlspecialchars($t['Fahrzeit'] ?? '–'); ?></td>
+                                <td><?= htmlspecialchars($t['Startnr']); ?></td>
+                                <td><?= htmlspecialchars($t['Name']); ?></td>
+                                <td><?= htmlspecialchars($t['Teamname']); ?></td>
+                                <td><?= htmlspecialchars($t['Platzierung'] ?? '–'); ?></td>
+                                <td><?= htmlspecialchars($t['Fahrzeit'] ?? '–'); ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -227,7 +227,7 @@ if ($renn_id !== '') {
             <?php else: ?>
                 <form action="rennveranstalter_dashboard.php" method="post">
                     <input type="hidden" name="aktion" value="ergebnisse_speichern">
-                    <input type="hidden" name="renn_id" value="<?php echo htmlspecialchars($renn_id); ?>">
+                    <input type="hidden" name="renn_id" value="<?= htmlspecialchars($renn_id); ?>">
                     <table>
                         <thead>
                             <tr>
@@ -241,14 +241,14 @@ if ($renn_id !== '') {
                         <tbody>
                             <?php foreach ($teilnehmer as $t): ?>
                                 <tr>
-                                    <td><?php echo htmlspecialchars($t['Startnr']); ?></td>
-                                    <td><?php echo htmlspecialchars($t['Name']); ?></td>
-                                    <td><?php echo htmlspecialchars($t['Teamname']); ?></td>
+                                    <td><?= htmlspecialchars($t['Startnr']); ?></td>
+                                    <td><?= htmlspecialchars($t['Name']); ?></td>
+                                    <td><?= htmlspecialchars($t['Teamname']); ?></td>
                                     <td>
-                                        <input type="number" name="platzierung[<?php echo htmlspecialchars($t['MitarbeiterID']); ?>]" min="1">
+                                        <input type="number" name="platzierung[<?= htmlspecialchars($t['MitarbeiterID']); ?>]" min="1">
                                     </td>
                                     <td>
-                                        <input type="time" step="1" name="fahrzeit[<?php echo htmlspecialchars($t['MitarbeiterID']); ?>]">
+                                        <input type="time" step="1" name="fahrzeit[<?= htmlspecialchars($t['MitarbeiterID']); ?>]">
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

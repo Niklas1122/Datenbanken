@@ -4,19 +4,19 @@
     <?php if (count($zukuenftige_rennen) === 0): ?>
         <p>Keine zukünftigen Rennen vorhanden.</p>
     <?php else: ?>
-        <label style="<?php echo $label_stil; ?>">
+        <label style="<?= $label_stil; ?>">
             Rennen<br>
             <select id="rennen_auswahl">
                 <option value="">-- Rennen wählen --</option>
                 <?php foreach ($zukuenftige_rennen as $rennen): ?>
-                    <option value="<?php echo htmlspecialchars($rennen['RennID']); ?>">
-                        <?php echo htmlspecialchars($rennen['Datum'] . ' – ' . $rennen['Standort']); ?>
+                    <option value="<?= htmlspecialchars($rennen['RennID']); ?>">
+                        <?= htmlspecialchars($rennen['Datum'] . ' – ' . $rennen['Standort']); ?>
                     </option>
                 <?php endforeach; ?>
             </select>
         </label>
 
-        <label style="<?php echo $label_stil; ?>">
+        <label style="<?= $label_stil; ?>">
             Anzahl Fahrer<br>
             <input type="number" id="anzahl_fahrer" min="1" value="1">
         </label>
@@ -106,25 +106,25 @@
         <form action="teamchef_dashboard.php" method="post">
             <input type="hidden" name="aktion" value="teilnahme_kopieren">
 
-            <label style="<?php echo $label_stil; ?>">
+            <label style="<?= $label_stil; ?>">
                 Anmeldungen von Rennen<br>
                 <select name="quell_renn_id">
                     <option value="">-- Rennen wählen --</option>
                     <?php foreach ($rennen_mit_teilnahmen as $rennen): ?>
-                        <option value="<?php echo htmlspecialchars($rennen['RennID']); ?>">
-                            <?php echo htmlspecialchars($rennen['Datum'] . ' – ' . $rennen['Standort']); ?>
+                        <option value="<?= htmlspecialchars($rennen['RennID']); ?>">
+                            <?= htmlspecialchars($rennen['Datum'] . ' – ' . $rennen['Standort']); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
             </label>
 
-            <label style="<?php echo $label_stil; ?>">
+            <label style="<?= $label_stil; ?>">
                 Kopieren nach Rennen<br>
                 <select name="ziel_renn_id">
                     <option value="">-- Rennen wählen --</option>
                     <?php foreach ($zukuenftige_rennen as $rennen): ?>
-                        <option value="<?php echo htmlspecialchars($rennen['RennID']); ?>">
-                            <?php echo htmlspecialchars($rennen['Datum'] . ' – ' . $rennen['Standort']); ?>
+                        <option value="<?= htmlspecialchars($rennen['RennID']); ?>">
+                            <?= htmlspecialchars($rennen['Datum'] . ' – ' . $rennen['Standort']); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>

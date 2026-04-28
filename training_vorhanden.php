@@ -13,10 +13,10 @@
             <?php if (count($trainings_liste) > 0): ?>
                 <?php foreach ($trainings_liste as $training): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($training['MitarbeiterID']); ?></td>
-                        <td><?php echo htmlspecialchars($training['Datum']); ?></td>
-                        <td><?php echo htmlspecialchars($training['Kilometer']); ?></td>
-                        <td><?php echo htmlspecialchars($training['TrainingszielBezeichnung']); ?></td>
+                        <td><?= htmlspecialchars($training['MitarbeiterID']); ?></td>
+                        <td><?= htmlspecialchars($training['Datum']); ?></td>
+                        <td><?= htmlspecialchars($training['Kilometer']); ?></td>
+                        <td><?= htmlspecialchars($training['TrainingszielBezeichnung']); ?></td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
