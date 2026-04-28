@@ -9,7 +9,7 @@ if (isset($_POST['form_typ']) && $_POST['form_typ'] === 'veranstalter_registrier
         $meldung = "Bitte alles ausfüllen.";
     } else {
         $login = mysqli_real_escape_string($connection, $loginname);
-        $pass  = mysqli_real_escape_string($connection, $passwort);
+        $pass  = mysqli_real_escape_string($connection, password_hash($passwort, PASSWORD_DEFAULT));
         $ergebnis = mysqli_query($connection, "SELECT Loginname FROM RENNVERANSTALTER WHERE Loginname = '$login'");
 
         if ($ergebnis && mysqli_num_rows($ergebnis) > 0) {

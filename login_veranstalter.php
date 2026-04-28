@@ -8,11 +8,11 @@ if (isset($_POST['form_typ']) && $_POST['form_typ'] === 'veranstalter_login') {
     if ($loginname === '' || $passwort === '') {
         $meldung = "Bitte alles ausfüllen.";
     } else {
-        $login = mysqli_real_escape_string($connection, $loginname);
-        $pass  = mysqli_real_escape_string($connection, $passwort);
-        $ergebnis = mysqli_query($connection, "SELECT Loginname FROM RENNVERANSTALTER WHERE Loginname = '$login' AND Passwort = '$pass'");
+        $login    = mysqli_real_escape_string($connection, $loginname);
+        $ergebnis = mysqli_query($connection, "SELECT Passwort FROM RENNVERANSTALTER WHERE Loginname = '$login'");
+        $zeile    = $ergebnis ? mysqli_fetch_assoc($ergebnis) : null;
 
-        if ($ergebnis && mysqli_num_rows($ergebnis) > 0) {
+        if ($zeile && password_verify($passwort, $zeile['Passwort'])) {
             $_SESSION['veranstalter_login'] = $loginname;
             header("Location: rennveranstalter_dashboard.php");
             exit;

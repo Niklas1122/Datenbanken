@@ -14,7 +14,7 @@ if (isset($_POST['form_typ']) && $_POST['form_typ'] === 'team_registrierung') {
     } elseif (teamExistiert($connection, $teamname)) {
         $meldung = "Teamname ist schon vergeben.";
     } else {
-        $fehler = speichereTeam($connection, $teamname, $vorname, $nachname, $loginname, $passwort);
+        $fehler = speichereTeam($connection, $teamname, $vorname, $nachname, $loginname, password_hash($passwort, PASSWORD_DEFAULT));
         $meldung = $fehler === '' ? "Team wurde gespeichert." : $fehler;
     }
 }
