@@ -19,17 +19,6 @@ function abfrageAlsListe($connection, $sql)
     return $liste;
 }
 
-// Gibt die nächste freie Startnummer für ein Rennen zurück.
-function naechsteStartnummer($connection, $renn_id)
-{
-    $abfrage = mysqli_query($connection, "SELECT MAX(Startnr) AS max_nr FROM TEILNAHME WHERE RennID = '$renn_id'");
-
-    if ($abfrage && ($zeile = mysqli_fetch_assoc($abfrage)) && $zeile['max_nr'] !== null) {
-        return (int)$zeile['max_nr'] + 1;
-    }
-
-    return 1;
-}
 
 function leeresFahrerFormular()
 {
@@ -123,7 +112,6 @@ function meldeFahrerZuRennen($connection, $rennen_id, $fahrer_ids)
     $renn_id = mysqli_real_escape_string($connection, trim($rennen_id));
     if ($renn_id === '') return 0;
 
-    $startnr = naechsteStartnummer($connection, $renn_id);
     $gespeichert = 0;
 
     foreach ($fahrer_ids as $fahrer_id) {
@@ -131,8 +119,7 @@ function meldeFahrerZuRennen($connection, $rennen_id, $fahrer_ids)
         if ($id === '') continue;
 
         try {
-            if (mysqli_query($connection, "INSERT INTO TEILNAHME (RennID, MitarbeiterID, Startnr) VALUES ('$renn_id', '$id', '$startnr')")) {
-                $startnr++;
+            if (mysqli_query($connection, "INSERT INTO TEILNAHME (RennID, MitarbeiterID) VALUES ('$renn_id', '$id')")) {
                 $gespeichert++;
             }
         } catch (mysqli_sql_exception $e) {
@@ -155,14 +142,12 @@ function kopiereTeilnahmen($connection, $teamname, $quell_id, $ziel_id)
 
     if (count($fahrer) === 0) return 0;
 
-    $startnr = naechsteStartnummer($connection, $ziel);
     $gespeichert = 0;
 
     foreach ($fahrer as $zeile) {
         $id = mysqli_real_escape_string($connection, $zeile['MitarbeiterID']);
         try {
-            if (mysqli_query($connection, "INSERT INTO TEILNAHME (RennID, MitarbeiterID, Startnr) VALUES ('$ziel', '$id', '$startnr')")) {
-                $startnr++;
+            if (mysqli_query($connection, "INSERT INTO TEILNAHME (RennID, MitarbeiterID) VALUES ('$ziel', '$id')")) {
                 $gespeichert++;
             }
         } catch (mysqli_sql_exception $e) {
