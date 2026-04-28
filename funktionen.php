@@ -9,25 +9,11 @@ function teamExistiert($connection, $teamname)
 
 function speichereTeam($connection, $teamname, $vorname, $nachname, $loginname, $passwort)
 {
-    $team  = mysqli_real_escape_string($connection, $teamname);
-    $vn    = mysqli_real_escape_string($connection, $vorname);
-    $nn    = mysqli_real_escape_string($connection, $nachname);
-    $login = mysqli_real_escape_string($connection, $loginname);
-    $pass  = mysqli_real_escape_string($connection, $passwort);
-
-    $login_check = mysqli_query($connection, "SELECT Loginname FROM TEAMCHEF WHERE Loginname = '$login'");
-    if ($login_check && mysqli_num_rows($login_check) > 0) {
-        return "Loginname ist schon vergeben.";
-    }
-
-    if (
-        mysqli_query($connection, "INSERT INTO TEAMCHEF (Loginname, Vorname, Nachname, Passwort) VALUES ('$login', '$vn', '$nn', '$pass')") &&
-        mysqli_query($connection, "INSERT INTO TEAM (Teamname, Loginname) VALUES ('$team', '$login')")
-    ) {
-        return "";
-    }
-
-    return "Fehler beim Speichern.";
+    $stmt = mysqli_prepare($connection, "CALL TeamRegistrieren(?,?,?,?,?,@fehler)");
+    mysqli_stmt_bind_param($stmt, 'sssss', $teamname, $vorname, $nachname, $loginname, $passwort);
+    mysqli_stmt_execute($stmt);
+    $zeile = mysqli_fetch_assoc(mysqli_query($connection, "SELECT @fehler AS fehler"));
+    return $zeile['fehler'];
 }
 
 function holeTeamnameZumLogin($connection, $teamchef_login)

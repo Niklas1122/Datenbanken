@@ -5,6 +5,7 @@ require_once __DIR__ . '/funktionen.php';
 
 require_once __DIR__ . '/fahrer_funktionen.php';
 require_once __DIR__ . '/training_funktionen.php';
+require_once __DIR__ . '/auswertung_klasse.php';
 
 if (!isset($_SESSION['teamchef_login'])) {
     header("Location: index.php");
@@ -27,6 +28,8 @@ $training_moeglich = tabelleExistiert($connection, 'TRAINING');
 $rennen_moeglich = tabelleExistiert($connection, 'RENNEN') && tabelleExistiert($connection, 'TEILNAHME');
 $zukuenftige_rennen = array();
 $rennen_mit_teilnahmen = array();
+$auswertung_filter = ['trainingsziel' => '', 'von' => '', 'bis' => ''];
+$auswertung_ergebnisse = array();
 $teamname = holeTeamnameZumLogin($connection, $teamchef_login);
 
 if ($teamname === '') {
@@ -91,6 +94,25 @@ if ($teamname !== "") {
 
     $fahrer_array = holeFahrerListe($connection, $teamname);
 
+    if ($aktion === 'auswertung_filtern' && $training_moeglich) {
+        $auswertung_filter = [
+            'trainingsziel' => trim($_POST['auswertung_ziel'] ?? ''),
+            'von'           => trim($_POST['auswertung_von'] ?? ''),
+            'bis'           => trim($_POST['auswertung_bis'] ?? ''),
+        ];
+        foreach ($fahrer_array as $fahrer) {
+            $obj = new FahrerAuswertung(
+                $fahrer['MitarbeiterID'],
+                $fahrer['Name'],
+                $auswertung_filter['trainingsziel'],
+                $auswertung_filter['von'],
+                $auswertung_filter['bis']
+            );
+            $obj->berechne($connection);
+            $auswertung_ergebnisse[] = $obj;
+        }
+    }
+
     if ($training_moeglich) {
         $trainings_liste = holeTrainingsliste($connection);
     }
@@ -127,6 +149,7 @@ if ($teamname !== "") {
         <?php if ($training_moeglich): ?>
             <?php require __DIR__ . '/training_erfassen.php'; ?>
             <?php require __DIR__ . '/training_vorhanden.php'; ?>
+            <?php require __DIR__ . '/auswertung_bereich.php'; ?>
         <?php endif; ?>
 
         <?php if ($rennen_moeglich): ?>
