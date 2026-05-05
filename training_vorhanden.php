@@ -1,6 +1,7 @@
 <?php // Niklas ?>
 <div>
     <h2>Vorhandene Trainings</h2>
+    <!-- zeigt alle Trainings des Teams, nicht nur eines Fahrers -->
     <table>
         <thead>
             <tr>

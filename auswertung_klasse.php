@@ -33,6 +33,7 @@ class FahrerAuswertung
     public function berechne($connection)
     {
         $id  = mysqli_real_escape_string($connection, $this->mitarbeiterID);
+        // Datum wird auf Jahr-Monat reduziert, damit ich pro Monat gruppieren kann
         $sql = "SELECT DATE_FORMAT(Datum, '%Y-%m') AS Monat, Kilometer
                 FROM TRAINING WHERE MitarbeiterID = '$id'";
 
@@ -80,6 +81,7 @@ class FahrerAuswertung
         $n     = count($werte);
         if ($n === 0) return 0;
         $mitte = intdiv($n, 2);
+        // bei gerader Anzahl Mittelwert der zwei mittleren Werte
         return $n % 2 === 0
             ? ($werte[$mitte - 1] + $werte[$mitte]) / 2
             : $werte[$mitte];
@@ -90,6 +92,7 @@ class FahrerAuswertung
         $n             = count($werte);
         if ($n === 0) return 0;
         $avg           = array_sum($werte) / $n;
+        // Summe der quadratischen Abweichungen vom Mittelwert
         $summeQuadrate = array_sum(array_map(fn($w) => ($w - $avg) ** 2, $werte));
         return sqrt($summeQuadrate / $n);
     }

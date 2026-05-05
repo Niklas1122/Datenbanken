@@ -4,11 +4,14 @@ session_start();
 
 $meldung = "";
 $label_stil = 'display:block; margin-bottom:10px;';
+
+// Formularverarbeitung einbinden, bevor HTML ausgegeben wird
 include __DIR__ . '/registrierung_team.php';
 include __DIR__ . '/login_teamchef.php';
 include __DIR__ . '/registrierung_veranstalter.php';
 include __DIR__ . '/login_veranstalter.php';
 
+// wer schon angemeldet ist braucht die Startseite nicht
 if (isset($_SESSION['teamchef_login'])) {
     header("Location: teamchef_dashboard.php");
     exit;

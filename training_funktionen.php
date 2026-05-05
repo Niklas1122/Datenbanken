@@ -3,6 +3,7 @@
 
 function leeresTrainingFormular($trainingsziele)
 {
+    // erstes Ziel vorauswählen, falls vorhanden
     return array(
         'mitarbeiter_id' => '',
         'datum' => '',

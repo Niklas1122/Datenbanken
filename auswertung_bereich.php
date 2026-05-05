@@ -1,5 +1,6 @@
 <?php // Niklas ?>
 <h2>Auswertungsbereich</h2>
+<!-- Filter: Trainingsziel und optionaler Zeitraum -->
 <form method="post">
     <input type="hidden" name="aktion" value="auswertung_filtern">
     <label style="<?= $label_stil ?>">
@@ -26,7 +27,7 @@
 <?php if (!empty($auswertung_ergebnisse)): ?>
     <?php foreach ($auswertung_ergebnisse as $auswertung): ?>
         <h3><?= htmlspecialchars($auswertung->getName()) ?> (<?= htmlspecialchars($auswertung->getMitarbeiterID()) ?>)</h3>
-        <?php $monate = $auswertung->getMonate(); ?>
+        <?php $monate = $auswertung->getMonate(); // alle berechneten Monate des Fahrers ?>
         <?php if (empty($monate)): ?>
             <p>Keine Trainingsdaten für diesen Zeitraum.</p>
         <?php else: ?>

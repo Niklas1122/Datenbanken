@@ -4,6 +4,7 @@
     <form action="teamchef_dashboard.php" method="post">
         <input type="hidden" name="aktion" value="training_speichern">
 
+        <!-- Fahrer aus dem Team zur Auswahl -->
         <label style="<?= $label_stil; ?>">
             Fahrer<br>
             <select name="training_fahrer">
@@ -26,6 +27,7 @@
             <input type="number" step="0.1" name="training_kilometer" value="<?= htmlspecialchars($training_form['kilometer']); ?>">
         </label>
 
+        <!-- Trainingsziele kommen aus der DB bzw. Standardliste -->
         <label style="<?= $label_stil; ?>">
             Trainingsziel<br>
             <select name="training_ziel">
