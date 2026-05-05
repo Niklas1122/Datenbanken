@@ -1,6 +1,6 @@
 <?php
 // Bedi
-require_once __DIR__ . '/connection.php';
+require_once __DIR__ . '/connection.inc.php';
 
 if (isset($_POST['form_typ'], $_POST['login_name'], $_POST['password'])) {
     $loginname = trim($_POST['login_name']);

@@ -1,7 +1,7 @@
 <?php
 // Bedi
-require_once __DIR__ . '/connection.php';
-require_once __DIR__ . '/funktionen.php';
+require_once __DIR__ . '/connection.inc.php';
+require_once __DIR__ . '/funktionen.inc.php';
 
 if (isset($_POST['form_typ']) && $_POST['form_typ'] === 'team_registrierung') {
     $teamname  = trim($_POST['team_name'] ?? '');

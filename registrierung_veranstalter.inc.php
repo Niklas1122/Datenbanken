@@ -1,6 +1,6 @@
 <?php
 // Jonas
-require_once __DIR__ . '/connection.php';
+require_once __DIR__ . '/connection.inc.php';
 
 if (isset($_POST['form_typ']) && $_POST['form_typ'] === 'veranstalter_registrierung') {
     $loginname = trim($_POST['veranstalter_name'] ?? '');

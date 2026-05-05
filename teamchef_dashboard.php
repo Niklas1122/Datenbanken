@@ -1,12 +1,12 @@
 <?php
 // Bedi
 session_start();
-require_once __DIR__ . '/connection.php';
-require_once __DIR__ . '/funktionen.php';
+require_once __DIR__ . '/connection.inc.php';
+require_once __DIR__ . '/funktionen.inc.php';
 
-require_once __DIR__ . '/fahrer_funktionen.php';
-require_once __DIR__ . '/training_funktionen.php';
-require_once __DIR__ . '/auswertung_klasse.php';
+require_once __DIR__ . '/fahrer_funktionen.inc.php';
+require_once __DIR__ . '/training_funktionen.inc.php';
+require_once __DIR__ . '/auswertung_klasse.inc.php';
 
 if (!isset($_SESSION['teamchef_login'])) {
     header("Location: index.php");
@@ -144,17 +144,17 @@ if ($teamname !== "") {
             <p><?= htmlspecialchars($fehler); ?></p>
         <?php endif; ?>
 
-        <?php require __DIR__ . '/fahrer_anlegen.php'; ?>
-        <?php require __DIR__ . '/fahrer_vorhanden.php'; ?>
+        <?php require __DIR__ . '/fahrer_anlegen.inc.php'; ?>
+        <?php require __DIR__ . '/fahrer_vorhanden.inc.php'; ?>
 
         <?php if ($training_moeglich): ?>
-            <?php require __DIR__ . '/training_erfassen.php'; ?>
-            <?php require __DIR__ . '/training_vorhanden.php'; ?>
-            <?php require __DIR__ . '/auswertung_bereich.php'; ?>
+            <?php require __DIR__ . '/training_erfassen.inc.php'; ?>
+            <?php require __DIR__ . '/training_vorhanden.inc.php'; ?>
+            <?php require __DIR__ . '/auswertung_bereich.inc.php'; ?>
         <?php endif; ?>
 
         <?php if ($rennen_moeglich): ?>
-            <?php require __DIR__ . '/rennen_anmelden.php'; ?>
+            <?php require __DIR__ . '/rennen_anmelden.inc.php'; ?>
         <?php endif; ?>
     </div>
 </body>

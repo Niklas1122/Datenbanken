@@ -6,10 +6,10 @@ $meldung = "";
 $label_stil = 'display:block; margin-bottom:10px;';
 
 // Formularverarbeitung einbinden, bevor HTML ausgegeben wird
-include __DIR__ . '/registrierung_team.php';
-include __DIR__ . '/login_teamchef.php';
-include __DIR__ . '/registrierung_veranstalter.php';
-include __DIR__ . '/login_veranstalter.php';
+include __DIR__ . '/registrierung_team.inc.php';
+include __DIR__ . '/login_teamchef.inc.php';
+include __DIR__ . '/registrierung_veranstalter.inc.php';
+include __DIR__ . '/login_veranstalter.inc.php';
 
 // wer schon angemeldet ist braucht die Startseite nicht
 if (isset($_SESSION['teamchef_login'])) {
