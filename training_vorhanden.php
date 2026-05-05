@@ -1,3 +1,4 @@
+<?php // Niklas ?>
 <div>
     <h2>Vorhandene Trainings</h2>
     <table>

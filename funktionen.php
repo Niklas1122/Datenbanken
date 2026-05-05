@@ -1,4 +1,5 @@
 <?php
+// Bedi
 
 function teamExistiert($connection, $teamname)
 {

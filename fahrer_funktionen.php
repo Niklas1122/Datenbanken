@@ -1,6 +1,5 @@
 <?php
-
-// Führt eine SELECT-Abfrage aus und gibt alle Zeilen als Array zurück.
+// Bedi
 function abfrageAlsListe($connection, $sql)
 {
     $liste = [];

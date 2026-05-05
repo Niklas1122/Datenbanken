@@ -1,4 +1,5 @@
 <?php
+// Niklas
 $host = "localhost";
 $user = "gruppe20";
 $password = "s*_C4u}y~if!";

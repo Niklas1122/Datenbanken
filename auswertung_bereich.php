@@ -1,3 +1,4 @@
+<?php // Niklas ?>
 <h2>Auswertungsbereich</h2>
 <form method="post">
     <input type="hidden" name="aktion" value="auswertung_filtern">

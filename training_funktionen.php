@@ -1,4 +1,5 @@
 <?php
+// Niklas
 
 function leeresTrainingFormular($trainingsziele)
 {

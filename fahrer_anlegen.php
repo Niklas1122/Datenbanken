@@ -1,3 +1,4 @@
+<?php // Bedi ?>
 <div>
     <h2><?= $bearbeiten ? 'Fahrer ändern' : 'Fahrer anlegen'; ?></h2>
     <form action="teamchef_dashboard.php" method="post">

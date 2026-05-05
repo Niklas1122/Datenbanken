@@ -1,4 +1,5 @@
 <?php
+// Niklas
 session_start();
 
 $meldung = "";

@@ -1,4 +1,5 @@
 <?php
+// Jonas
 require_once __DIR__ . '/connection.php';
 
 if (isset($_POST['form_typ']) && $_POST['form_typ'] === 'veranstalter_registrierung') {

@@ -1,4 +1,5 @@
 <?php
+// Bedi
 require_once __DIR__ . '/connection.php';
 
 if (isset($_POST['form_typ'], $_POST['login_name'], $_POST['password'])) {

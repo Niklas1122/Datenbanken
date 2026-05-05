@@ -1,3 +1,4 @@
+<?php // Niklas ?>
 <div>
     <h2>Neues Training erfassen</h2>
     <form action="teamchef_dashboard.php" method="post">
