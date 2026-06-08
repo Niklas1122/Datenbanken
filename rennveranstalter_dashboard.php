@@ -79,21 +79,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['aktion'] ?? '') === 'ergeb
     $fahrzeiten    = $_POST['fahrzeit'] ?? array();
     $gespeichert   = 0;
 
-    $stmt = mysqli_prepare($connection, "UPDATE TEILNAHME SET Platzierung = ?, Fahrzeit = ? WHERE RennID = ? AND MitarbeiterID = ?");
-
-    foreach ($platzierungen as $mitarbeiter_id => $platzierung) {
-        $id_sicher    = trim((string)$mitarbeiter_id);
-        $platz_wert   = trim($platzierung) !== '' ? trim($platzierung) : null;
-        $zeit_wert    = trim($fahrzeiten[$mitarbeiter_id] ?? '') !== '' ? trim($fahrzeiten[$mitarbeiter_id]) : null;
-
-        try {
+    mysqli_begin_transaction($connection);
+    try {
+        $stmt = mysqli_prepare($connection, "UPDATE TEILNAHME SET Platzierung = ?, Fahrzeit = ? WHERE RennID = ? AND MitarbeiterID = ?");
+        foreach ($platzierungen as $mitarbeiter_id => $platzierung) {
+            $id_sicher  = trim((string)$mitarbeiter_id);
+            $platz_wert = trim($platzierung) !== '' ? trim($platzierung) : null;
+            $zeit_wert  = trim($fahrzeiten[$mitarbeiter_id] ?? '') !== '' ? trim($fahrzeiten[$mitarbeiter_id]) : null;
             mysqli_stmt_bind_param($stmt, 'ssss', $platz_wert, $zeit_wert, $renn_id, $id_sicher);
-            if (mysqli_stmt_execute($stmt)) {
-                $gespeichert++;
-            }
-        } catch (mysqli_sql_exception $e) {
-            continue;
+            mysqli_stmt_execute($stmt);
+            $gespeichert++;
         }
+        mysqli_commit($connection);
+    } catch (mysqli_sql_exception $e) {
+        mysqli_rollback($connection);
+        $gespeichert = 0;
     }
 
     if ($gespeichert > 0) {

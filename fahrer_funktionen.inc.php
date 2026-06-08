@@ -100,20 +100,26 @@ function speichereFahrer($connection, $teamname, $fahrer_form, $modus)
             : ['meldung' => '', 'fehler' => 'Änderung konnte nicht gespeichert werden.', 'bearbeiten' => true, 'formular_zuruecksetzen' => false];
     }
 
-    $stmt = mysqli_prepare($connection, "SELECT MitarbeiterID FROM FAHRER WHERE MitarbeiterID=? AND Teamname=?");
-    mysqli_stmt_bind_param($stmt, 'ss', $id, $teamname);
-    mysqli_stmt_execute($stmt);
-    $check = mysqli_stmt_get_result($stmt);
-    if ($check && mysqli_num_rows($check) > 0) {
-        return ['meldung' => '', 'fehler' => 'Diese Mitarbeiter-ID gibt es im Team bereits.', 'bearbeiten' => false, 'formular_zuruecksetzen' => false];
-    }
+    mysqli_begin_transaction($connection);
+    try {
+        $stmt = mysqli_prepare($connection, "SELECT MitarbeiterID FROM FAHRER WHERE MitarbeiterID=? AND Teamname=?");
+        mysqli_stmt_bind_param($stmt, 'ss', $id, $teamname);
+        mysqli_stmt_execute($stmt);
+        $check = mysqli_stmt_get_result($stmt);
+        if ($check && mysqli_num_rows($check) > 0) {
+            mysqli_rollback($connection);
+            return ['meldung' => '', 'fehler' => 'Diese Mitarbeiter-ID gibt es im Team bereits.', 'bearbeiten' => false, 'formular_zuruecksetzen' => false];
+        }
 
-    $stmt2 = mysqli_prepare($connection, "INSERT INTO FAHRER (MitarbeiterID, Name, PLZ, Ort, Strasse, Hausnr, TelNr, Teamname) VALUES (?,?,?,?,?,?,?,?)");
-    mysqli_stmt_bind_param($stmt2, 'ssssssss', $id, $name, $plz, $ort, $strasse, $hausnr, $telnr, $teamname);
-    $ok = mysqli_stmt_execute($stmt2);
-    return $ok
-        ? ['meldung' => 'Fahrer wurde angelegt.', 'fehler' => '', 'bearbeiten' => false, 'formular_zuruecksetzen' => true]
-        : ['meldung' => '', 'fehler' => 'Neuer Fahrer konnte nicht gespeichert werden.', 'bearbeiten' => false, 'formular_zuruecksetzen' => false];
+        $stmt2 = mysqli_prepare($connection, "INSERT INTO FAHRER (MitarbeiterID, Name, PLZ, Ort, Strasse, Hausnr, TelNr, Teamname) VALUES (?,?,?,?,?,?,?,?)");
+        mysqli_stmt_bind_param($stmt2, 'ssssssss', $id, $name, $plz, $ort, $strasse, $hausnr, $telnr, $teamname);
+        mysqli_stmt_execute($stmt2);
+        mysqli_commit($connection);
+        return ['meldung' => 'Fahrer wurde angelegt.', 'fehler' => '', 'bearbeiten' => false, 'formular_zuruecksetzen' => true];
+    } catch (mysqli_sql_exception $e) {
+        mysqli_rollback($connection);
+        return ['meldung' => '', 'fehler' => 'Neuer Fahrer konnte nicht gespeichert werden.', 'bearbeiten' => false, 'formular_zuruecksetzen' => false];
+    }
 }
 
 function holeZukuenftigeRennen($connection)
@@ -182,18 +188,19 @@ function kopiereTeilnahmen($connection, $teamname, $quell_id, $ziel_id)
     if (count($fahrer) === 0) return 0;
 
     $gespeichert = 0;
-    $stmt2 = mysqli_prepare($connection, "INSERT INTO TEILNAHME (RennID, MitarbeiterID) VALUES (?, ?)");
-
-    foreach ($fahrer as $zeile) {
-        $id = $zeile['MitarbeiterID'];
-        try {
+    mysqli_begin_transaction($connection);
+    try {
+        $stmt2 = mysqli_prepare($connection, "INSERT INTO TEILNAHME (RennID, MitarbeiterID) VALUES (?, ?)");
+        foreach ($fahrer as $zeile) {
+            $id = $zeile['MitarbeiterID'];
             mysqli_stmt_bind_param($stmt2, 'ss', $ziel, $id);
-            if (mysqli_stmt_execute($stmt2)) {
-                $gespeichert++;
-            }
-        } catch (mysqli_sql_exception $e) {
-            continue;
+            mysqli_stmt_execute($stmt2);
+            $gespeichert++;
         }
+        mysqli_commit($connection);
+    } catch (mysqli_sql_exception $e) {
+        mysqli_rollback($connection);
+        return 0;
     }
 
     return $gespeichert;
