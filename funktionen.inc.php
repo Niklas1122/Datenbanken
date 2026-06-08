@@ -3,8 +3,10 @@
 
 function teamExistiert($connection, $teamname)
 {
-    $team = mysqli_real_escape_string($connection, $teamname);
-    $ergebnis = mysqli_query($connection, "SELECT Teamname FROM TEAM WHERE Teamname = '$team'");
+    $stmt = mysqli_prepare($connection, "SELECT Teamname FROM TEAM WHERE Teamname = ?");
+    mysqli_stmt_bind_param($stmt, 's', $teamname);
+    mysqli_stmt_execute($stmt);
+    $ergebnis = mysqli_stmt_get_result($stmt);
     return $ergebnis && mysqli_num_rows($ergebnis) > 0;
 }
 
@@ -19,8 +21,10 @@ function speichereTeam($connection, $teamname, $vorname, $nachname, $loginname, 
 
 function holeTeamnameZumLogin($connection, $teamchef_login)
 {
-    $login = mysqli_real_escape_string($connection, $teamchef_login);
-    $abfrage = mysqli_query($connection, "SELECT Teamname FROM TEAM WHERE Loginname = '$login' LIMIT 1");
+    $stmt = mysqli_prepare($connection, "SELECT Teamname FROM TEAM WHERE Loginname = ? LIMIT 1");
+    mysqli_stmt_bind_param($stmt, 's', $teamchef_login);
+    mysqli_stmt_execute($stmt);
+    $abfrage = mysqli_stmt_get_result($stmt);
 
     if ($abfrage && mysqli_num_rows($abfrage) > 0) {
         return mysqli_fetch_assoc($abfrage)['Teamname'];
@@ -65,20 +69,24 @@ function speichereTraining($connection, $mitarbeiter_id, $datum, $kilometer, $tr
         return "Die Tabelle TRAINING fehlt noch.";
     }
 
-    $id   = mysqli_real_escape_string($connection, trim($mitarbeiter_id));
-    $dat  = mysqli_real_escape_string($connection, trim($datum));
-    $km   = mysqli_real_escape_string($connection, trim($kilometer));
-    $ziel = mysqli_real_escape_string($connection, trim($trainingsziel));
+    $id   = trim($mitarbeiter_id);
+    $dat  = trim($datum);
+    $km   = trim($kilometer);
+    $ziel = trim($trainingsziel);
 
     try {
-        $pruefung = mysqli_query($connection, "SELECT MitarbeiterID FROM TRAINING WHERE MitarbeiterID = '$id' AND Datum = '$dat'");
+        $stmt = mysqli_prepare($connection, "SELECT MitarbeiterID FROM TRAINING WHERE MitarbeiterID = ? AND Datum = ?");
+        mysqli_stmt_bind_param($stmt, 'ss', $id, $dat);
+        mysqli_stmt_execute($stmt);
+        $pruefung = mysqli_stmt_get_result($stmt);
 
         if ($pruefung && mysqli_num_rows($pruefung) > 0) {
             return "Für diesen Fahrer gibt es an diesem Tag schon ein Training.";
         }
 
-        mysqli_query($connection, "INSERT INTO TRAINING (Datum, Kilometer, MitarbeiterID, TrainingszielBezeichnung)
-                                   VALUES ('$dat', '$km', '$id', '$ziel')");
+        $stmt2 = mysqli_prepare($connection, "INSERT INTO TRAINING (Datum, Kilometer, MitarbeiterID, TrainingszielBezeichnung) VALUES (?, ?, ?, ?)");
+        mysqli_stmt_bind_param($stmt2, 'ssss', $dat, $km, $id, $ziel);
+        mysqli_stmt_execute($stmt2);
         return "";
     } catch (mysqli_sql_exception $e) {
         return "Training konnte nicht gespeichert werden.";

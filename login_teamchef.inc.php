@@ -9,8 +9,10 @@ if (isset($_POST['form_typ'], $_POST['login_name'], $_POST['password'])) {
     if ($loginname === '' || $passwort === '') {
         $meldung = "Bitte alles ausfüllen.";
     } else {
-        $login    = mysqli_real_escape_string($connection, $loginname);
-        $ergebnis = mysqli_query($connection, "SELECT Passwort FROM TEAMCHEF WHERE Loginname = '$login'");
+        $stmt = mysqli_prepare($connection, "SELECT Passwort FROM TEAMCHEF WHERE Loginname = ?");
+        mysqli_stmt_bind_param($stmt, 's', $loginname);
+        mysqli_stmt_execute($stmt);
+        $ergebnis = mysqli_stmt_get_result($stmt);
         $zeile    = $ergebnis ? mysqli_fetch_assoc($ergebnis) : null;
 
         if ($zeile && password_verify($passwort, $zeile['Passwort'])) {
