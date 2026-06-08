@@ -15,7 +15,8 @@ if (isset($_POST['form_typ']) && $_POST['form_typ'] === 'veranstalter_login') {
 
         if ($zeile && password_verify($passwort, $zeile['Passwort'])) {    // Passwort Überprüfung
             $_SESSION['veranstalter_login'] = $loginname;
-            header("Location: rennveranstalter_dashboard.php");  // Weiterleitung          exit;
+            header("Location: rennveranstalter_dashboard.php");  // Weiterleitung         
+             exit;
         } else {
             $meldung = "Loginname oder Passwort ist falsch.";
         }
