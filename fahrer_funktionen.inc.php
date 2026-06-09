@@ -1,5 +1,7 @@
 <?php
 // Bedi
+
+// führt eine SQL-Abfrage aus und sammelt alle Ergebnisse in einem Array
 function abfrageAlsListe($connection, $sql)
 {
     $liste = [];
@@ -18,12 +20,13 @@ function abfrageAlsListe($connection, $sql)
     return $liste;
 }
 
-
+// Gibt ein leeres fahrerformular mit standardwerten zurück
 function leeresFahrerFormular()
 {
     return ['MitarbeiterID' => '', 'Name' => '', 'PLZ' => '', 'Ort' => '', 'Strasse' => '', 'Hausnr' => '', 'TelNr' => ''];
 }
 
+// Liest die eingegebenen formulardaten aus dem post-request aus
 function liesFahrerFormularAusPost()
 {
     return [
@@ -37,6 +40,7 @@ function liesFahrerFormularAusPost()
     ];
 }
 
+// Holt alle fahrer eines teams aus der datenbank
 function holeFahrerListe($connection, $teamname)
 {
     $stmt = mysqli_prepare($connection, "SELECT MitarbeiterID, Name, PLZ, Ort, Strasse, Hausnr, TelNr FROM FAHRER WHERE Teamname = ? ORDER BY MitarbeiterID");
@@ -52,6 +56,7 @@ function holeFahrerListe($connection, $teamname)
     return $liste;
 }
 
+// Sucht einen bestimmten fahrer, damit seine daten bearbeitet werden können
 function holeFahrerZumBearbeiten($connection, $teamname, $mitarbeiter_id)
 {
     $stmt = mysqli_prepare($connection, "SELECT MitarbeiterID, Name, PLZ, Ort, Strasse, Hausnr, TelNr FROM FAHRER WHERE MitarbeiterID = ? AND Teamname = ? LIMIT 1");
@@ -67,6 +72,7 @@ function holeFahrerZumBearbeiten($connection, $teamname, $mitarbeiter_id)
     return count($liste) > 0 ? $liste[0] : leeresFahrerFormular();
 }
 
+// Löscht einen fahrer anhand der MID aus dem team
 function loescheFahrer($connection, $teamname, $mitarbeiter_id)
 {
     $id = trim($mitarbeiter_id);
@@ -77,6 +83,7 @@ function loescheFahrer($connection, $teamname, $mitarbeiter_id)
     return mysqli_stmt_execute($stmt);
 }
 
+// Speichert einen fahrer -> entweder neu anlegen oder vorhandene Daten ändern
 function speichereFahrer($connection, $teamname, $fahrer_form, $modus)
 {
     if ($fahrer_form['MitarbeiterID'] === '' || $fahrer_form['Name'] === '') {
@@ -91,6 +98,7 @@ function speichereFahrer($connection, $teamname, $fahrer_form, $modus)
     $hausnr  = $fahrer_form['Hausnr'];
     $telnr   = $fahrer_form['TelNr'];
 
+    // Beim bearbeiten wird ein update ausgeführt
     if ($modus === 'bearbeiten') {
         $stmt = mysqli_prepare($connection, "UPDATE FAHRER SET Name=?, PLZ=?, Ort=?, Strasse=?, Hausnr=?, TelNr=? WHERE MitarbeiterID=? AND Teamname=?");
         mysqli_stmt_bind_param($stmt, 'ssssssss', $name, $plz, $ort, $strasse, $hausnr, $telnr, $id, $teamname);
@@ -100,6 +108,7 @@ function speichereFahrer($connection, $teamname, $fahrer_form, $modus)
             : ['meldung' => '', 'fehler' => 'Änderung konnte nicht gespeichert werden.', 'bearbeiten' => true, 'formular_zuruecksetzen' => false];
     }
 
+    // Beim anlegen wird vorher geprüft, ob die ID schon vorhanden ist
     mysqli_begin_transaction($connection);
     try {
         $stmt = mysqli_prepare($connection, "SELECT MitarbeiterID FROM FAHRER WHERE MitarbeiterID=? AND Teamname=?");
@@ -122,11 +131,13 @@ function speichereFahrer($connection, $teamname, $fahrer_form, $modus)
     }
 }
 
+// Liefert alle rennen die ab heute stattfinden.
 function holeZukuenftigeRennen($connection)
 {
     return abfrageAlsListe($connection, "SELECT RennID, Datum, Standort FROM RENNEN WHERE Datum >= CURDATE() ORDER BY Datum");
 }
 
+// Zeigt rennen an bei denen Fahrer des teams bereits teilnehmen
 function holeRennenMitTeilnahmen($connection, $teamname)
 {
     $stmt = mysqli_prepare($connection, "SELECT DISTINCT r.RennID, r.Datum, r.Standort FROM RENNEN r JOIN TEILNAHME t ON t.RennID = r.RennID JOIN FAHRER f ON f.MitarbeiterID = t.MitarbeiterID WHERE f.Teamname = ? ORDER BY r.Datum DESC");
@@ -142,6 +153,7 @@ function holeRennenMitTeilnahmen($connection, $teamname)
     return $liste;
 }
 
+// Meldet mehrere fahrer für ein Rennen an
 function meldeFahrerZuRennen($connection, $rennen_id, $fahrer_ids)
 {
     $renn_id = trim($rennen_id);
@@ -167,6 +179,7 @@ function meldeFahrerZuRennen($connection, $rennen_id, $fahrer_ids)
     return $gespeichert;
 }
 
+// Kopiert fahrertelnahmen von einem Rennen auf ein anderes
 function kopiereTeilnahmen($connection, $teamname, $quell_id, $ziel_id)
 {
     $quell = trim($quell_id);

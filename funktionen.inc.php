@@ -1,6 +1,7 @@
 <?php
 // Bedi
 
+// Prüft ob ein Team mit diesem Namen schon existiert
 function teamExistiert($connection, $teamname)
 {
     $stmt = mysqli_prepare($connection, "SELECT Teamname FROM TEAM WHERE Teamname = ?");
@@ -10,6 +11,7 @@ function teamExistiert($connection, $teamname)
     return $ergebnis && mysqli_num_rows($ergebnis) > 0;
 }
 
+// Ruft die Registrierung eines neuen Teams in der Datenbank auf
 function speichereTeam($connection, $teamname, $vorname, $nachname, $loginname, $passwort)
 {
     $stmt = mysqli_prepare($connection, "CALL TeamRegistrieren(?,?,?,?,?,@fehler)");
@@ -19,6 +21,7 @@ function speichereTeam($connection, $teamname, $vorname, $nachname, $loginname, 
     return $zeile['fehler'];
 }
 
+// Sucht zum Loginnamen den passenden Teamnamen
 function holeTeamnameZumLogin($connection, $teamchef_login)
 {
     $stmt = mysqli_prepare($connection, "SELECT Teamname FROM TEAM WHERE Loginname = ? LIMIT 1");
@@ -33,6 +36,7 @@ function holeTeamnameZumLogin($connection, $teamchef_login)
     return '';
 }
 
+// Prüft ob eine bestimmte Tabelle in der Datenbank vorhanden ist
 function tabelleExistiert($connection, $tabellenname)
 {
     $name = mysqli_real_escape_string($connection, $tabellenname);
@@ -41,6 +45,7 @@ function tabelleExistiert($connection, $tabellenname)
     return $ergebnis && mysqli_num_rows($ergebnis) > 0;
 }
 
+// Holt alle Trainingsziele oder nutzt Standardwerte falls keine Tabelle da ist
 function holeTrainingsziele($connection)
 {
     if (!tabelleExistiert($connection, 'TRAININGSZIEL')) {
@@ -63,6 +68,7 @@ function holeTrainingsziele($connection)
     return count($ziele) > 0 ? $ziele : ['Ausdauer', 'Sprintkraft', 'Steigungen'];
 }
 
+// Speichert ein Training für einen Fahrer
 function speichereTraining($connection, $mitarbeiter_id, $datum, $kilometer, $trainingsziel)
 {
     if (!tabelleExistiert($connection, 'TRAINING')) {
@@ -75,6 +81,7 @@ function speichereTraining($connection, $mitarbeiter_id, $datum, $kilometer, $tr
     $ziel = trim($trainingsziel);
 
     try {
+        // Verhindert dass für denselben Fahrer am selben Tag doppelt gespeichert wird
         $stmt = mysqli_prepare($connection, "SELECT MitarbeiterID FROM TRAINING WHERE MitarbeiterID = ? AND Datum = ?");
         mysqli_stmt_bind_param($stmt, 'ss', $id, $dat);
         mysqli_stmt_execute($stmt);
@@ -93,6 +100,7 @@ function speichereTraining($connection, $mitarbeiter_id, $datum, $kilometer, $tr
     }
 }
 
+// Holt alle gespeicherten Trainings aus der Datenbank
 function holeTrainingsliste($connection)
 {
     if (!tabelleExistiert($connection, 'TRAINING')) {

@@ -8,6 +8,7 @@ require_once __DIR__ . '/fahrer_funktionen.inc.php';
 require_once __DIR__ . '/training_funktionen.inc.php';
 require_once __DIR__ . '/auswertung_klasse.inc.php';
 
+// Prüft ob ein Teamchef eingeloggt ist
 if (!isset($_SESSION['teamchef_login'])) {
     header("Location: index.php");
     exit;
@@ -33,6 +34,7 @@ $auswertung_filter = ['trainingsziel' => '', 'von' => '', 'bis' => ''];
 $auswertung_ergebnisse = array();
 $teamname = holeTeamnameZumLogin($connection, $teamchef_login);
 
+// Falls kein Team gefunden wird, wird eine Fehlermeldung gesetzt
 if ($teamname === '') {
     $fehler = "Kein Team zum angemeldeten Teamchef gefunden.";
 }
@@ -41,6 +43,7 @@ if ($teamname !== "") {
     $aktion = $_POST['aktion'] ?? '';
     $modus = $_POST['modus'] ?? 'neu';
 
+    // Löscht einen Fahrer aus dem Team
     if ($aktion === 'loeschen' && !empty($_POST['mitarbeiter_id'])) {
         if (loescheFahrer($connection, $teamname, $_POST['mitarbeiter_id'])) {
             $meldung = "Fahrer wurde gelöscht.";
@@ -49,6 +52,7 @@ if ($teamname !== "") {
         }
     }
 
+    // Speichert neue oder bearbeitete Fahrerdaten
     if ($aktion === 'speichern') {
         $fahrer_form = liesFahrerFormularAusPost();
         $ergebnis = speichereFahrer($connection, $teamname, $fahrer_form, $modus);
@@ -61,6 +65,7 @@ if ($teamname !== "") {
         }
     }
 
+    // Kopiert Rennteilnahmen von einem Rennen auf ein anderes
     if ($aktion === 'teilnahme_kopieren' && $rennen_moeglich) {
         $anzahl = kopiereTeilnahmen($connection, $teamname, $_POST['quell_renn_id'] ?? '', $_POST['ziel_renn_id'] ?? '');
         if ($anzahl > 0) {
@@ -70,6 +75,7 @@ if ($teamname !== "") {
         }
     }
 
+    // Meldet ausgewählte Fahrer für ein Rennen an
     if ($aktion === 'rennen_anmelden' && $rennen_moeglich) {
         $fahrer_ids = $_POST['fahrer_id'] ?? array();
         $fahrer_ids = array_filter(array_unique($fahrer_ids));
@@ -81,6 +87,7 @@ if ($teamname !== "") {
         }
     }
 
+    // Speichert ein Training aus dem Trainingsformular
     if ($aktion === 'training_speichern' && $training_moeglich) {
         $training_form = liesTrainingFormularAusPost($trainingsziele);
         $ergebnis = speichereTrainingAusFormular($connection, $training_form, $trainingsziele);
@@ -89,12 +96,14 @@ if ($teamname !== "") {
         $training_form = $ergebnis['training_form'];
     }
 
+    // Lädt beim Bearbeiten die Daten des ausgewählten Fahrers
     if ($bearbeiten && $fahrer_form['MitarbeiterID'] === '') {
         $fahrer_form = holeFahrerZumBearbeiten($connection, $teamname, $_GET['edit']);
     }
 
     $fahrer_array = holeFahrerListe($connection, $teamname);
 
+    // Erstellt die Auswertung für alle Fahrer des Teams
     if ($aktion === 'auswertung_filtern' && $training_moeglich) {
         $auswertung_filter = [
             'trainingsziel' => trim($_POST['auswertung_ziel'] ?? ''),
@@ -114,10 +123,12 @@ if ($teamname !== "") {
         }
     }
 
+    // Holt die Trainingsliste für die Anzeige
     if ($training_moeglich) {
         $trainings_liste = holeTrainingsliste($connection);
     }
 
+    // Holt die Rennen und vorhandenen Teilnahmen für die Anzeige
     if ($rennen_moeglich) {
         $zukuenftige_rennen = holeZukuenftigeRennen($connection);
         $rennen_mit_teilnahmen = holeRennenMitTeilnahmen($connection, $teamname);
@@ -144,15 +155,18 @@ if ($teamname !== "") {
             <p><?= htmlspecialchars($fehler); ?></p>
         <?php endif; ?>
 
+        <!-- Bereich zum Anlegen und Bearbeiten von Fahrern -->
         <?php require __DIR__ . '/fahrer_anlegen.inc.php'; ?>
         <?php require __DIR__ . '/fahrer_vorhanden.inc.php'; ?>
 
+        <!-- Trainingsbereich wird nur angezeigt, wenn die Tabellen vorhanden sind -->
         <?php if ($training_moeglich): ?>
             <?php require __DIR__ . '/training_erfassen.inc.php'; ?>
             <?php require __DIR__ . '/training_vorhanden.inc.php'; ?>
             <?php require __DIR__ . '/auswertung_bereich.inc.php'; ?>
         <?php endif; ?>
 
+        <!-- Rennbereich wird nur angezeigt, wenn die Tabellen vorhanden sind -->
         <?php if ($rennen_moeglich): ?>
             <?php require __DIR__ . '/rennen_anmelden.inc.php'; ?>
         <?php endif; ?>
