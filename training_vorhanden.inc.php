@@ -1,7 +1,7 @@
 <?php // Niklas ?>
 <div>
     <h2>Vorhandene Trainings</h2>
-    <!-- zeigt alle Trainings des Teams, nicht nur eines Fahrers -->
+    <!-- Tabelle zeigt alle Trainings des gesamten Teams -->
     <table>
         <thead>
             <tr>
@@ -12,8 +12,8 @@
             </tr>
         </thead>
         <tbody>
-            <?php if (count($trainings_liste) > 0): ?>
-                <?php foreach ($trainings_liste as $training): ?>
+            <?php if (count($trainings_liste) > 0): ?> <!-- prüfen ob überhaupt Trainings vorhanden sind -->
+                <?php foreach ($trainings_liste as $training): ?> <!-- jede Zeile aus der DB-Abfrage ausgeben -->
                     <tr>
                         <td><?= htmlspecialchars($training['MitarbeiterID']); ?></td>
                         <td><?= htmlspecialchars($training['Datum']); ?></td>
@@ -22,6 +22,7 @@
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
+                <!-- Ersatz-Zeile, die alle 4 Spalten überspannt, wenn keine Daten vorhanden sind -->
                 <tr>
                     <td colspan="4">Noch keine Trainings vorhanden.</td>
                 </tr>
