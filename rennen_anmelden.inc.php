@@ -5,6 +5,8 @@
     <?php if (count($zukuenftige_rennen) === 0): ?>
         <p>Keine zukünftigen Rennen vorhanden.</p>
     <?php else: ?>
+        
+        //Rennen auswählen
         <label style="<?= $label_stil; ?>">
             Rennen<br>
             <select id="rennen_auswahl">
@@ -50,13 +52,13 @@
             }
             echo json_encode($optionen);
         ?>;
-
+     // Baut die Tabelle je nach ausgewählter Anzahl Fahrer
         function zeigeAnmeldeTabelle() {
             var rennenId = document.getElementById('rennen_auswahl').value;
             var anzahl = parseInt(document.getElementById('anzahl_fahrer').value);
 
             if (!rennenId || !anzahl || anzahl < 1) return;
-
+// Renn-ID ins Formular übernehmen
             document.getElementById('rennen_id_hidden').value = rennenId;
 
             var tbody = document.getElementById('fahrer_tabelle');
@@ -71,10 +73,10 @@
                     + '</select></td>';
                 tbody.appendChild(tr);
             }
-
+//Formular anzeigen (sichtbar machen)
             document.getElementById('anmelde_form').style.display = '';
         }
-
+   // Verhindert, dass ein Fahrer mehrfach ausgewählt wird
         function pruefeDoubletten() {
             var selects = document.querySelectorAll('#fahrer_tabelle select');
             var gewaehlt = [];

@@ -3,6 +3,8 @@
 session_start();
 require_once __DIR__ . '/connection.inc.php';
 
+
+//Prüfen ob Veranstalter eingeloggt ist, sonst weiterleiten
 if (!isset($_SESSION['veranstalter_login'])) {
     header("Location: index.php");
     exit;
@@ -12,6 +14,8 @@ $veranstalter_login = $_SESSION['veranstalter_login'];
 $meldung = '';
 $fehler = '';
 
+
+//Holt alle Rennen, die vom aktuell eingeloggten Veranstalter erstellt wurden
 function holeRennenDesVeranstalters($connection, $login)
 {
     $liste = array();
@@ -23,6 +27,7 @@ function holeRennenDesVeranstalters($connection, $login)
     } catch (mysqli_sql_exception $e) {
         return $liste;
     }
+    // Alle gefundenen Rennen in das Array übernehmen
     if ($abfrage) {
         while ($zeile = mysqli_fetch_assoc($abfrage)) {
             $liste[] = $zeile;
@@ -42,6 +47,7 @@ function holeTeilnehmerFuerRennen($connection, $renn_id)
     } catch (mysqli_sql_exception $e) {
         return $liste;
     }
+        // Alle Teilnehmer in ein Array speichern
     if ($abfrage) {
         while ($zeile = mysqli_fetch_assoc($abfrage)) {
             $liste[] = $zeile;
@@ -58,6 +64,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['aktion'] ?? '') === 'renne
     $hoehenmeter = trim($_POST['hoehenmeter'] ?? '');
     $max_steigung = trim($_POST['max_steigung'] ?? '');
 
+
+    //Prüfen ob alle Felder ausgefüllt wurden, sonst Fehlermeldung anzeigen. Wenn alles ok, Rennen in DB speichern
     if ($datum === '' || $standort === '' || $kilometer === '' || $hoehenmeter === '' || $max_steigung === '') {
         $fehler = 'Bitte alle Felder ausfüllen.';
     } else {
@@ -82,6 +90,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['aktion'] ?? '') === 'ergeb
     mysqli_begin_transaction($connection);
     try {
         $stmt = mysqli_prepare($connection, "UPDATE TEILNAHME SET Platzierung = ?, Fahrzeit = ? WHERE RennID = ? AND MitarbeiterID = ?");
+       
+           // Für jeden Teilnehmer Platzierung und Fahrzeit speichern
         foreach ($platzierungen as $mitarbeiter_id => $platzierung) {
             $id_sicher  = trim((string)$mitarbeiter_id);
             $platz_wert = trim($platzierung) !== '' ? trim($platzierung) : null;
@@ -241,7 +251,7 @@ if ($renn_id !== '') {
                 </form>
             <?php endif; ?>
         <?php elseif ($renn_id !== ''): ?>
-            <p>Keine Teilnehmer für dieses Rennen gefunden.</p>
+            <p>Keine Teilnehmer für dieses Rennen gefunden.</p> 
         <?php endif; ?>
     </div>
 </body>
