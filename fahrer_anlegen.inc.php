@@ -4,7 +4,7 @@
 anlegen od. bearbeiten eines Fahrers (teamchef dashboard)
 -->
 <div>
-    <!-- Überschrift ob fahrer neu angelegt oder bearbeitet wird -->
+    <!-- für die Überschrift: ob fahrer neu angelegt oder bearbeitet wird -->
     <h2><?= $bearbeiten ? 'Fahrer ändern' : 'Fahrer anlegen'; ?></h2>
     <form action="teamchef_dashboard.php" method="post">
         <input type="hidden" name="aktion" value="speichern">
@@ -23,7 +23,6 @@ anlegen od. bearbeiten eines Fahrers (teamchef dashboard)
         </label>
         <label style="<?= $label_stil; ?>">
             PLZ<br>
-            <!-- htmlspecialchars schützt die Ausgabe vor eingeschleustem HTML/JavaScript -->
             <input type="text" name="plz" value="<?= htmlspecialchars($fahrer_form['PLZ']); ?>">
         </label>
         <label style="<?= $label_stil; ?>">
